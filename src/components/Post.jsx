@@ -5,18 +5,21 @@ function Post(props) {
   const author = content.author;
   const post = content.post;
 
-  const postDateFormated = (value) => {
-    const date = new Date(value);
-    return `${date.getMonth} / ${date.getDay}`;
-  };
+  function postDateFormated(value) {
+    return value.getDay;
+  }
 
   return (
     <div className="flex">
-      <div className="content_left">
-        <img src={author.picture} alt={`profile from ${author.name}`} />
+      <div className="content_left m-4">
+        <img
+          src={author.picture}
+          className="rounded-full"
+          alt={`profile from ${author.name}`}
+        />
       </div>
-      <div className="content_right">
-        <div className="content_title">
+      <div className="content_right flex-row">
+        <div className="content_title flex">
           <span> {author.name} </span>
           <a href={`htts://google.com/${author.nickname}`}>
             @{author.nickname}
