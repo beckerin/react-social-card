@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 function Link(props) {
-  const args = props.arguments;
-  const url = args.find((x) => x.type === "url").content;
+  const url = props.arguments;
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState("");
@@ -44,18 +43,20 @@ function Link(props) {
         if (node.nodeName.includes("meta")) {
           let unit = parser.parseFromString(node.innerHTML, "text/html");
           let stamp = unit.firstChild?.firstChild?.firstChild;
-          if (
-            stamp != null &&
-            stamp !== undefined &&
-            stamp?.name !== undefined &&
-            stamp?.name !== "" &&
-            stamp?.name.includes(target)
+
+          if (stamp == null && stamp === undefined && stamp?.name === "") {
+          } else if (stamp?.name?.includes(target)) {
+            result.push(stamp.content);
+          } else if (
+            stamp?.content?.includes(".png") &&
+            target?.includes("image")
           ) {
             result.push(stamp.content);
           }
         }
         return null;
       });
+    console.log(result);
     return result[0];
   }
 
@@ -84,7 +85,7 @@ function Link(props) {
       <a
         href={url}
         target="_blank"
-        className="block rounded-xl border-gray-800 shadow-xl my-4 mr-4"
+        className="block rounded-xl max-w-xs md:max-w-2xl border-gray-800 shadow-xl my-4 mr-4"
         rel="noreferrer"
       >
         <div className="image">

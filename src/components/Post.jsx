@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import moment from "moment";
 import Link from "./Link";
 import { FaComment, FaHeart, FaEnvelope, FaRetweet } from "react-icons/fa";
@@ -8,18 +8,21 @@ function Post(props) {
   const author = content.author;
   const post = content.post;
   const date = moment(post.lastUpdate).format("MMM DD");
+  const [hasLink, setHasLink] = useState([]);
 
-  const Components = {
-    link: Link,
-  };
-  const ContentComponent = Components[post.content.component];
+  useEffect(() => {
+    const regexUrl =
+      // eslint-disable-next-line no-useless-escape
+      /(http|https)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/gim;
+    setHasLink(regexUrl.exec(post.description));
+  }, [post.description]);
 
   return (
-    <div className="flex mb-12">
-      <div className="content_left m-4">
+    <div className="flex">
+      <div className="content_left m-4 w-20">
         <img
           src={author.picture}
-          className="rounded-full"
+          className="rounded-full w-20"
           alt={`profile from ${author.name}`}
         />
       </div>
@@ -37,13 +40,9 @@ function Post(props) {
         </div>
         <div className="content_description mb-2">
           <span dangerouslySetInnerHTML={{ __html: post.description }}></span>
-          {post.content ? (
-            <ContentComponent arguments={post.content.arguments} />
-          ) : (
-            ""
-          )}
+          {hasLink?.length > 0 ? <Link arguments={hasLink[0]} /> : ""}
         </div>
-        <div className="content_footer mb-2 flex gap-8 text-lg text-gray-600">
+        <div className="content_footer mb-12 flex gap-8 text-lg text-gray-600 dark:text-gray-400">
           <button className="footer_coments flex gap-4">
             <FaComment size="24" />
             {post.coments.count}
