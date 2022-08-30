@@ -1,8 +1,10 @@
 import React from "react";
 
 function Link(props) {
-  const arg = props.arguments;
-  return <div>{arg.content}</div>;
+  const args = props.arguments;
+  const url = args.find((x) => x.type === "url").content;
+
+  return <div>{url}</div>;
 }
 
 export default Link;

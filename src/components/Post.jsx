@@ -1,13 +1,17 @@
 import React from "react";
+import moment from "moment";
+import Link from "./Link";
 
 function Post(props) {
   const content = props.content;
   const author = content.author;
   const post = content.post;
+  const date = moment(post.lastUpdate).format("MMM DD");
 
-  function postDateFormated(value) {
-    return value.getDay;
-  }
+  const Components = {
+    link: Link,
+  };
+  const ContentComponent = Components[post.content.component];
 
   return (
     <div className="flex">
@@ -19,22 +23,26 @@ function Post(props) {
         />
       </div>
       <div className="content_right flex-row">
-        <div className="content_title flex">
-          <span> {author.name} </span>
-          <a href={`htts://google.com/${author.nickname}`}>
-            @{author.nickname}
+        <div className="content_title flex gap-2 mb-2">
+          <a
+            href={`htts://google.com/${author.nickname}`}
+            className="font-bold"
+          >
+            {author.name}
           </a>
-          <span> {postDateFormated(post.lastUpdate)} </span>
+          <span className="text-gray-600">
+            {"@" + author.nickname + " " + date}
+          </span>
         </div>
-        <div className="content_description">
-          <span> {post.description} </span>
+        <div className="content_description mb-2">
+          <span dangerouslySetInnerHTML={{ __html: post.description }}></span>
           {post.content ? (
-            <post.content.component arguments={post.content.arguments} />
+            <ContentComponent arguments={post.content.arguments} />
           ) : (
             ""
           )}
         </div>
-        <div className="content_footer">
+        <div className="content_footer mb-2">
           <button className="footer_coments">
             <img src="" alt="" />
             {post.coments.count}

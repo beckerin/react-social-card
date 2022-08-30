@@ -1,7 +1,5 @@
 import React from "react";
 import Post from "./Post";
-// eslint-disable-next-line no-unused-vars
-import Link from "./Link";
 
 function Feed() {
   const feedList = [
@@ -12,13 +10,13 @@ function Feed() {
         picture: "https://i.stack.imgur.com/zjUOL.jpg?s=64&g=1",
       },
       post: {
-        description: "Learning React ? start small \n { author @dcbedita }",
+        description: "Learning React ? start small <br> { author @dcbedita }",
         content: {
           type: "link",
           component: "link",
           arguments: [{ type: "url", content: "https://dev.io/" }],
         },
-        lastUpdate: new Date(),
+        lastUpdate: "10/10/2022",
         coments: {
           count: 1,
           list: [
