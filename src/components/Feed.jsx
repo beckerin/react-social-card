@@ -21,7 +21,7 @@ function Feed() {
             },
           ],
         },
-        lastUpdate: "10/10/2022",
+        lastUpdate: "2022-09-10",
         coments: {
           count: 1,
           list: [

@@ -4,19 +4,42 @@ import axios from "axios";
 function Link(props) {
   const args = props.arguments;
   const url = args.find((x) => x.type === "url").content;
-  const [title, setTitle] = useState();
-  const [description, setDescription] = useState();
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [image, setImage] = useState("");
 
   useEffect(() => {
-    let title = "";
-    let desc = "";
     getXMLString(url).then((data) => {
-      title = getTitle(data);
-      desc = getDescription(data);
+      const metas = [].slice.call(data.getElementsByTagName("meta"));
+      const results = [];
+      metas.map((item) =>
+        item.childNodes.forEach((a) =>
+          a.nodeName !== "#text" &&
+          a.nodeName !== "#comment" &&
+          a.nodeName !== "script"
+            ? results.push(a)
+            : ""
+        )
+      );
+
+      setTitle(getIncludesName(results, "title").textContent);
+      setDescription(getIncludesName(results, "og:description").textContent);
+      setImage(getIncludesName(results, "og:image").textContent);
+      console.log(getIncludesName(results, "og:image"));
     });
-    setTitle(title);
-    setDescription(desc);
   }, [url]);
+  function getIncludesName(list, target) {
+    let result = [];
+    result = list.filter((node) => node.nodeName.includes(target));
+    if (!result.Length > 0)
+      list.map((node) => {
+        if (node.nodeName.includes("meta") && node.innerHTML.includes(target)) {
+          console.log(node.name);
+        }
+        return null;
+      });
+    return result;
+  }
 
   async function getXMLString(target) {
     let responseXML = "";
@@ -30,15 +53,11 @@ function Link(props) {
     });
     return responseXML;
   }
-
-  function getTitle(target) {
-    return target.getElementsByTagName("title")[0].childNodes[0];
-  }
-  function getDescription(target) {
-    return target.getElementsByName("description")[0].content || "";
-  }
-
-  return <div>{title}</div>;
+  return (
+    <div>
+      {title} {description} {image}
+    </div>
+  );
 }
 
 export default Link;
