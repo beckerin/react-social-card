@@ -14,7 +14,12 @@ function Feed() {
         content: {
           type: "link",
           component: "link",
-          arguments: [{ type: "url", content: "https://dev.io/" }],
+          arguments: [
+            {
+              type: "url",
+              content: "https://dev.to/aurelkurtula",
+            },
+          ],
         },
         lastUpdate: "10/10/2022",
         coments: {
