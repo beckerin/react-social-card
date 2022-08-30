@@ -11,7 +11,7 @@ function Post(props) {
   };
 
   return (
-    <div className="">
+    <div className="flex">
       <div className="content_left">
         <img src={author.picture} alt={`profile from ${author.name}`} />
       </div>
