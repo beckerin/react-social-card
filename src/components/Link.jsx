@@ -81,7 +81,12 @@ function Link(props) {
     return "";
   } else {
     return (
-      <div className="block rounded-xl border-gray-800 shadow-xl my-4 mr-4">
+      <a
+        href={url}
+        target="_blank"
+        className="block rounded-xl border-gray-800 shadow-xl my-4 mr-4"
+        rel="noreferrer"
+      >
         <div className="image">
           <img
             src={image}
@@ -97,7 +102,7 @@ function Link(props) {
             {description}
           </p>
         </div>
-      </div>
+      </a>
     );
   }
 }
